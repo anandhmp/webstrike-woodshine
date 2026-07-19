@@ -1,2 +1,0 @@
-# webstrike-woodshine
-webstrike-woodshine
