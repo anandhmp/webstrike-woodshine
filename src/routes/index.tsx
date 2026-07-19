@@ -6,6 +6,7 @@ import {
     Facebook, Instagram, Youtube, X, Menu, Award, Layers, Home as HomeIcon,
 } from "lucide-react";
 import heroImg from "@/assets/hero-living.jpg";
+import logo from "@/assets/logo.png";
 import kitchenImg from "@/assets/kitchen.jpg";
 import kitchen2Img from "@/assets/kitchen2.jpg";
 import bedroomImg from "@/assets/bedroom.jpg";
@@ -118,12 +119,25 @@ function Navbar() {
         ["Home", "#home"], ["Packages", "#packages"], ["Kitchens", "#kitchens"],
         ["Projects", "#projects"], ["Testimonials", "#testimonials"], ["FAQs", "#faq"], ["Contact", "#contact"],
     ];
+
+
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? "py-3" : "py-5"}`}>
             <div className={`container-luxe transition-all duration-500 ${scrolled ? "" : ""}`}>
                 <div className={`flex items-center justify-between rounded-full px-5 md:px-7 py-3 transition-all duration-500 ${scrolled ? "glass shadow-[var(--shadow-soft)]" : "bg-transparent"}`}>
                     <a href="#home" className="flex items-center gap-2">
-                        <img className="w-44" src="./public/logo.png" alt="" />
+                        <img className="w-44" src={logo} alt="" />
                         {/* <span className="font-display text-lg leading-none">
                             Woodshine<span className="text-primary">.</span>
                             <span className="block text-[10px] uppercase tracking-[0.25em] text-muted-foreground font-sans mt-0.5">Interiors</span>
@@ -137,8 +151,27 @@ function Navbar() {
                         ))}
                     </nav>
                     <div className="flex items-center gap-2">
-                        <Btn href="#contact" className="hidden md:inline-flex px-5 py-2.5 text-xs">Book Consultation</Btn>
-                        <button className="lg:hidden grid h-10 w-10 place-items-center rounded-full glass" onClick={() => setOpen((o) => !o)} aria-label="Menu">
+                        {!isMobile && (
+                            <Btn
+                                href="#contact"
+                                className="px-5 py-2.5 text-xs"
+
+                            >
+                                Book Consultation
+                            </Btn>
+                        )}
+                        <button
+                            className="lg:hidden grid h-10 w-10 place-items-center rounded-full glass"
+                            onClick={() => setOpen((o) => !o)}
+                            aria-label="Menu"
+                            style={{
+                                display: 'grid',
+                                height: '40px',
+                                width: '40px',
+                                placeItems: 'center',
+                                borderRadius: '9999px',
+                            }}
+                        >
                             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                         </button>
                     </div>
@@ -274,8 +307,8 @@ function Hero() {
 
 function TrustStats() {
     const stats = [
-        { n: 1000, s: "+", label: "Happy Customers" },
-        { n: 500, s: "+", label: "Homes Completed" },
+        { n: 100, s: "+", label: "Completed Projects" },
+        { n: 100, s: "+", label: "Happy Customers" },
         { n: 10, s: "+ Yrs", label: "Experience" },
         { n: 100, s: "%", label: "Custom Designs" },
     ];
@@ -646,7 +679,7 @@ function LimitedOffer() {
     const time = [
         { n: "07", l: "Days" }, { n: "14", l: "Hours" }, { n: "32", l: "Minutes" }, { n: "48", l: "Seconds" },
     ];
-    const benefits = ["Free Design Consultation", "Free Site Visit", "Free 3D Design", "Special Package Pricing"];
+    const benefits = ["Free Design Consultation", "Free Site Visit", "Special Package Pricing"];
     return (
         <Section className="bg-accent text-accent-foreground relative overflow-hidden">
             <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(600px circle at 20% 20%, oklch(0.48 0.09 55 / 0.35), transparent 60%), radial-gradient(500px circle at 80% 80%, oklch(0.42 0.08 145 / 0.2), transparent 60%)" }} />
@@ -871,8 +904,19 @@ function Footer() {
                             Designed for Living. Crafted for Life. Premium home interiors with transparent pricing and factory-finished quality.
                         </p>
                         <div className="mt-6 flex gap-2">
-                            {[Facebook, Instagram, Youtube].map((Icon, i) => (
-                                <a key={i} href="#" className="grid h-10 w-10 place-items-center rounded-full glass-dark hover:bg-primary hover:border-primary transition-all">
+                            {[
+                                { icon: Facebook, href: "https://www.facebook.com/WoodShineInteriors/", label: "Facebook" },
+                                { icon: Instagram, href: "https://www.instagram.com/woodshinetvm/", label: "Instagram" },
+                                { icon: Youtube, href: "https://www.youtube.com/@WoodshineInteriorsBuilders", label: "YouTube" },
+                            ].map(({ icon: Icon, href, label }) => (
+                                <a
+                                    key={label}
+                                    href={href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={label}
+                                    className="grid h-10 w-10 place-items-center rounded-full glass-dark hover:bg-primary hover:border-primary transition-all"
+                                >
                                     <Icon className="h-4 w-4" />
                                 </a>
                             ))}
@@ -1000,7 +1044,7 @@ function Landing() {
                 <Kitchens />
                 <Process />
                 <Gallery />
-                <Comparison />
+                {/* <Comparison /> */}
                 <Testimonials />
                 <LimitedOffer />
                 <FAQ />
