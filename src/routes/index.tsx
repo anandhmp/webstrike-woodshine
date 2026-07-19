@@ -447,9 +447,9 @@ function Kitchens() {
                 <div className="grid lg:grid-cols-12 gap-12 items-center">
                     <div className="lg:col-span-6 reveal">
                         <div className="relative rounded-[2rem] overflow-hidden shadow-[var(--shadow-luxe)] group">
-                            <img src={"https://woodshine.in/wp-content/uploads/2023/02/homebnrimg-1.jpg"} alt="Premium modular kitchen with walnut cabinetry" loading="lazy" width={1408} height={1008} className="w-full h-[560px] object-cover transition-transform duration-[1200ms] group-hover:scale-105" />
+                            <img src={"https://woodshine.in/wp-content/uploads/2023/02/WA-A.jpg"} alt="Premium modular kitchen with walnut cabinetry" loading="lazy" width={1408} height={1008} className="w-full h-[560px] object-cover transition-transform duration-[1200ms] group-hover:scale-105" />
                             <div className="absolute inset-0 bg-gradient-to-t from-accent/50 via-transparent to-transparent" />
-                            <img src={"https://woodshine.in/wp-content/uploads/2023/02/blog1-1-1.jpg"} alt="" loading="lazy" width={1000} height={1000} className="absolute -bottom-8 -right-6 h-40 w-40 md:h-56 md:w-56 rounded-3xl object-cover border-8 border-background shadow-[var(--shadow-luxe)] hidden md:block" />
+                            <img src={"https://woodshine.in/wp-content/uploads/2023/02/0U1A4378-1.jpg"} alt="" loading="lazy" width={1000} height={1000} className="absolute -bottom-8 -right-6 h-40 w-40 md:h-56 md:w-56 rounded-3xl object-cover border-8 border-background shadow-[var(--shadow-luxe)] hidden md:block" />
                         </div>
                     </div>
 
