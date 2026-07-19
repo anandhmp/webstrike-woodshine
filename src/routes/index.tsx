@@ -334,7 +334,6 @@ function TrustStats() {
 
 function WhyWoodshine() {
     const items = [
-        { icon: Hammer, title: "Factory Finished", body: "Precision-manufactured in our own facilities for consistent, showroom-grade quality." },
         { icon: ShieldCheck, title: "Premium Hardware", body: "Hettich, Blum and Häfele fittings engineered to last decades." },
         { icon: Ruler, title: "Custom Designs", body: "Every millimetre tailored to your home, taste and how you actually live." },
         { icon: Sparkles, title: "Modular Kitchens", body: "Space-efficient, ergonomic layouts crafted for real Indian cooking." },
