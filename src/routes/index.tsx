@@ -341,7 +341,7 @@ function Packages() {
     const inclusions = ["Kitchen", "Wardrobes", "TV Unit", "Dining", "Living", "Bedrooms", "False Ceiling", "Prayer Unit"];
     const pkgs = [
         { name: "Basic", offer: "4,99,999", original: "5,10,899", desc: "Everything you need to move in beautifully.", tag: "" },
-        { name: "Essential", offer: "6,55,299", original: "8,20,899", desc: "The perfect balance of design and value.", tag: "Most Popular" },
+        { name: "Essential", offer: "6,55,299", original: "8,20,899", desc: "The perfect balance of design and value.", tag: "Most Chosen" },
         { name: "Premium", offer: "9,99,999", original: "12,99,999", desc: "Our most-loved package. Elevated finishes throughout.", tag: "" },
     ];
     // reorder so Premium is center on desktop
