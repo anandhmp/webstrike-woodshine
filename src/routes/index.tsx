@@ -3,8 +3,9 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "rea
 import {
     Phone, MessageCircle, ArrowRight, Check, Star, ChevronDown, MapPin, Mail,
     Sparkles, Hammer, Truck, Wrench, IndianRupee, ShieldCheck, Clock, Ruler,
-    Facebook, Instagram, Youtube, X, Menu, Award, Layers, Home as HomeIcon,
+    Facebook, Instagram, Youtube, X, Menu, Award, Layers, Home as HomeIcon, Loader2,
 } from "lucide-react";
+import { submitLead } from "../lib/mailer";
 import heroImg from "@/assets/hero-living.jpg";
 import logo from "@/assets/logo.png";
 import kitchenImg from "@/assets/kitchen.jpg";
@@ -195,14 +196,44 @@ function Navbar() {
 
 function HeroLeadForm({ compact = false }: { compact?: boolean }) {
     const [sent, setSent] = useState(false);
-    const onSubmit = (e: FormEvent) => { e.preventDefault(); setSent(true); };
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [location, setLocation] = useState("");
+    const [ptype, setPtype] = useState("3BHK");
+
+    const onSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+        try {
+            await submitLead({
+                data: {
+                    name,
+                    phone,
+                    location,
+                    propertyType: ptype,
+                    source: "Hero Section (Free Consultation)",
+                },
+            });
+            setSent(true);
+        } catch (err: any) {
+            console.error("Lead submission error:", err);
+            setError(err?.message || "Failed to submit lead. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     if (sent) {
         return (
-            <div className="rounded-3xl bg-card p-8 shadow-[var(--shadow-luxe)] text-center">
+            <div className="rounded-3xl bg-card p-8 shadow-[var(--shadow-luxe)] text-center animate-fade-in">
                 <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-success/10 text-success mb-4">
                     <Check className="h-7 w-7" />
                 </div>
-                <h3 className="font-display text-2xl mb-2">Thank you.</h3>
+                <h3 className="font-display text-2xl mb-2">Thank you!</h3>
                 <p className="text-sm text-muted-foreground">Our design consultant will call you within 24 hours to schedule your free consultation.</p>
             </div>
         );
@@ -214,26 +245,32 @@ function HeroLeadForm({ compact = false }: { compact?: boolean }) {
                 <span className="text-xs uppercase tracking-[0.2em] text-primary">Free Consultation</span>
             </div>
             <h3 className="font-display text-2xl md:text-[1.65rem] leading-tight mb-5">Get your free design estimate.</h3>
+            {error && (
+                <div className="mb-4 rounded-xl bg-destructive/10 p-3 text-xs text-destructive">
+                    {error}
+                </div>
+            )}
             <div className="space-y-3">
-                <input required placeholder="Your name" className="w-full rounded-full border border-border bg-background px-5 py-3 text-sm outline-none focus:border-primary transition" />
-                <input required type="tel" placeholder="Phone number" className="w-full rounded-full border border-border bg-background px-5 py-3 text-sm outline-none focus:border-primary transition" />
-                <input required placeholder="Location / City" className="w-full rounded-full border border-border bg-background px-5 py-3 text-sm outline-none focus:border-primary transition" />
+                <input required value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" className="w-full rounded-full border border-border bg-background px-5 py-3 text-sm outline-none focus:border-primary transition" />
+                <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Phone number" className="w-full rounded-full border border-border bg-background px-5 py-3 text-sm outline-none focus:border-primary transition" />
+                <input required value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Location / City" className="w-full rounded-full border border-border bg-background px-5 py-3 text-sm outline-none focus:border-primary transition" />
                 <div className="grid grid-cols-3 gap-2">
                     {["2BHK", "3BHK", "Villa"].map((t) => (
                         <label key={t} className="cursor-pointer">
-                            <input type="radio" name="ptype" defaultChecked={t === "3BHK"} className="peer sr-only" />
+                            <input type="radio" name="ptype" checked={ptype === t} onChange={() => setPtype(t)} className="peer sr-only" />
                             <div className="rounded-full border border-border bg-background px-3 py-2.5 text-center text-xs peer-checked:bg-accent peer-checked:text-accent-foreground peer-checked:border-accent transition">{t}</div>
                         </label>
                     ))}
                 </div>
             </div>
-            <button type="submit" className="mt-5 w-full rounded-full bg-primary text-primary-foreground py-3.5 text-sm font-medium tracking-wide hover:shadow-[0_20px_50px_-15px_oklch(0.48_0.09_55/0.6)] transition-all">
-                Get Free Estimate
+            <button type="submit" disabled={loading} className="mt-5 w-full rounded-full bg-primary text-primary-foreground py-3.5 text-sm font-medium tracking-wide hover:shadow-[0_20px_50px_-15px_oklch(0.48_0.09_55/0.6)] transition-all flex items-center justify-center gap-2 disabled:opacity-70">
+                {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Submitting...</> : "Get Free Estimate"}
             </button>
             <p className="mt-3 text-[11px] text-muted-foreground text-center">Zero obligation · Reply within 24 hours</p>
         </form>
     );
 }
+
 
 function Hero() {
     return (
@@ -791,6 +828,43 @@ function FAQ() {
 
 function FinalLead() {
     const [sent, setSent] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const [location, setLocation] = useState("");
+    const [propertyType, setPropertyType] = useState("3BHK");
+    const [budget, setBudget] = useState("Under ₹5 L");
+    const [message, setMessage] = useState("");
+
+    const onSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+        try {
+            await submitLead({
+                data: {
+                    name,
+                    phone,
+                    email,
+                    location,
+                    propertyType,
+                    budget,
+                    message,
+                    source: "Contact Section Form",
+                },
+            });
+            setSent(true);
+        } catch (err: any) {
+            console.error("Lead submission error:", err);
+            setError(err?.message || "Failed to submit lead. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <Section id="contact" className="relative overflow-hidden">
             <div className="absolute inset-0 -z-10">
@@ -838,19 +912,24 @@ function FinalLead() {
                                     <p className="text-muted-foreground max-w-md mx-auto">A design consultant will reach out within 24 hours to schedule your complimentary consultation.</p>
                                 </div>
                             ) : (
-                                <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-5">
+                                <form onSubmit={onSubmit} className="space-y-5">
+                                    {error && (
+                                        <div className="rounded-xl bg-destructive/10 p-3 text-xs text-destructive">
+                                            {error}
+                                        </div>
+                                    )}
                                     <div className="grid sm:grid-cols-2 gap-4">
-                                        <Field label="Full name"><input required className="input" placeholder="Your name" /></Field>
-                                        <Field label="Phone"><input required type="tel" className="input" placeholder="+91" /></Field>
-                                        <Field label="Email"><input type="email" className="input" placeholder="you@example.com" /></Field>
-                                        <Field label="Project location"><input required className="input" placeholder="City, area" /></Field>
+                                        <Field label="Full name"><input required value={name} onChange={(e) => setName(e.target.value)} className="input" placeholder="Your name" /></Field>
+                                        <Field label="Phone"><input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="input" placeholder="+91" /></Field>
+                                        <Field label="Email"><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" placeholder="you@example.com" /></Field>
+                                        <Field label="Project location"><input required value={location} onChange={(e) => setLocation(e.target.value)} className="input" placeholder="City, area" /></Field>
                                         <Field label="Property type">
-                                            <select className="input">
+                                            <select value={propertyType} onChange={(e) => setPropertyType(e.target.value)} className="input">
                                                 <option>1BHK</option><option>2BHK</option><option>3BHK</option><option>4BHK</option><option>Villa</option>
                                             </select>
                                         </Field>
                                         <Field label="Approximate budget">
-                                            <select className="input">
+                                            <select value={budget} onChange={(e) => setBudget(e.target.value)} className="input">
                                                 <option>Under ₹5 L</option>
                                                 <option>₹5 L – ₹8 L</option>
                                                 <option>₹8 L – ₹12 L</option>
@@ -860,10 +939,10 @@ function FinalLead() {
                                         </Field>
                                     </div>
                                     <Field label="Tell us about your project">
-                                        <textarea rows={4} className="input resize-none" placeholder="Rooms to design, timeline, style preferences…" />
+                                        <textarea rows={4} value={message} onChange={(e) => setMessage(e.target.value)} className="input resize-none" placeholder="Rooms to design, timeline, style preferences…" />
                                     </Field>
-                                    <button type="submit" className="w-full rounded-full bg-primary text-primary-foreground py-4 text-sm font-medium tracking-wide hover:shadow-[0_25px_60px_-15px_oklch(0.48_0.09_55/0.7)] hover:-translate-y-0.5 transition-all">
-                                        Book My Free Consultation
+                                    <button type="submit" disabled={loading} className="w-full rounded-full bg-primary text-primary-foreground py-4 text-sm font-medium tracking-wide hover:shadow-[0_25px_60px_-15px_oklch(0.48_0.09_55/0.7)] hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-70">
+                                        {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Submitting...</> : "Book My Free Consultation"}
                                     </button>
                                     <p className="text-[11px] text-muted-foreground text-center">
                                         By submitting, you agree to be contacted by Woodshine Interiors. We respect your privacy.
@@ -984,7 +1063,11 @@ function FloatingActions() {
 
 function ExitIntent() {
     const [show, setShow] = useState(false);
+    const [sent, setSent] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [phone, setPhone] = useState("");
     const shown = useRef(false);
+
     useEffect(() => {
         const on = (e: MouseEvent) => {
             if (shown.current) return;
@@ -993,6 +1076,26 @@ function ExitIntent() {
         const t = setTimeout(() => document.addEventListener("mouseout", on), 5000);
         return () => { clearTimeout(t); document.removeEventListener("mouseout", on); };
     }, []);
+
+    const onSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            await submitLead({
+                data: {
+                    phone,
+                    source: "Exit Intent Modal (Free 3D Walkthrough)",
+                },
+            });
+            setSent(true);
+            setTimeout(() => setShow(false), 2500);
+        } catch (err) {
+            console.error("Failed to submit exit lead:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     if (!show) return null;
     return (
         <div className="fixed inset-0 z-[60] grid place-items-center bg-accent/60 backdrop-blur-sm p-4 animate-fade-in">
@@ -1000,15 +1103,29 @@ function ExitIntent() {
                 <button onClick={() => setShow(false)} className="absolute top-4 right-4 grid h-9 w-9 place-items-center rounded-full hover:bg-secondary" aria-label="Close">
                     <X className="h-4 w-4" />
                 </button>
-                <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-primary mb-4">
-                    <Sparkles className="h-3.5 w-3.5" /> Wait — one moment
-                </div>
-                <h3 className="font-display text-3xl leading-tight">Before you go, unlock a <em className="italic text-primary">free 3D design</em>.</h3>
-                <p className="mt-3 text-sm text-muted-foreground">Leave your phone number and we'll gift you a complimentary 3D walkthrough of one room — no strings attached.</p>
-                <form onSubmit={(e) => { e.preventDefault(); setShow(false); }} className="mt-6 flex gap-2">
-                    <input required placeholder="Phone number" className="input flex-1" />
-                    <button className="rounded-full bg-primary text-primary-foreground px-5 text-sm font-medium hover:-translate-y-0.5 transition-transform">Claim</button>
-                </form>
+                {sent ? (
+                    <div className="text-center py-6">
+                        <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-success/10 text-success mb-3">
+                            <Check className="h-6 w-6" />
+                        </div>
+                        <h4 className="font-display text-xl mb-1">Claimed Successfully!</h4>
+                        <p className="text-xs text-muted-foreground">We'll reach out to you shortly for your free 3D design.</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-primary mb-4">
+                            <Sparkles className="h-3.5 w-3.5" /> Wait — one moment
+                        </div>
+                        <h3 className="font-display text-3xl leading-tight">Before you go, unlock a <em className="italic text-primary">free 3D design</em>.</h3>
+                        <p className="mt-3 text-sm text-muted-foreground">Leave your phone number and we'll gift you a complimentary 3D walkthrough of one room — no strings attached.</p>
+                        <form onSubmit={onSubmit} className="mt-6 flex gap-2">
+                            <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Phone number" className="input flex-1" />
+                            <button type="submit" disabled={loading} className="rounded-full bg-primary text-primary-foreground px-5 text-sm font-medium hover:-translate-y-0.5 transition-transform flex items-center gap-1.5 disabled:opacity-70">
+                                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Claim"}
+                            </button>
+                        </form>
+                    </>
+                )}
             </div>
         </div>
     );
