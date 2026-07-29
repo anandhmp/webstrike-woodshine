@@ -22,8 +22,16 @@ import t3 from "@/assets/t3.jpg";
 export const Route = createFileRoute("/")({
     head: () => ({
         meta: [
-            { title: "Woodshine Interiors Complete Home Interiors & Modular Kitchens" },
-            { name: "description", content: "Premium home interiors, modular kitchens, wardrobes and custom furniture. Transparent pricing. Factory finished. Book a free design consultation." },
+            { title: "Woodshine Interiors | Best Interior Designers in Trivandrum" },
+            { name: "description", content: "Woodshine Interiors, trusted interior designers in Trivandrum. Expert home interiors, modular kitchens and free design consultation" },
+            { name: "keywords", content: "interior designers in Trivandrum, home interiors Trivandrum, modular kitchen Trivandrum, home design Trivandrum, interior decorators Trivandrum, Woodshine Interiors" },
+            { property: "og:title", content: "Woodshine Interiors | Best Interior Designers in Trivandrum" },
+            { property: "og:description", content: "Woodshine Interiors, trusted interior designers in Trivandrum. Expert home interiors, modular kitchens and free design consultation" },
+            { property: "og:image", content: "http://spaces.woodshine.in/og-banner.png" },
+            { property: "og:url", content: "http://spaces.woodshine.in/" },
+            { name: "twitter:title", content: "Woodshine Interiors | Best Interior Designers in Trivandrum" },
+            { name: "twitter:description", content: "Woodshine Interiors, trusted interior designers in Trivandrum. Expert home interiors, modular kitchens and free design consultation" },
+            { name: "twitter:image", content: "http://spaces.woodshine.in/og-banner.png" },
         ],
     }),
     component: Landing,
