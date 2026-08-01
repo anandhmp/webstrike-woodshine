@@ -320,7 +320,7 @@ function Hero() {
 
                     <div className="lg:col-span-5 relative">
                         <div className="relative rounded-[2rem] overflow-hidden shadow-[var(--shadow-luxe)] animate-fade-in">
-                            <img src={heroImg} alt="Luxurious modern living room designed by Woodshine Interiors" width={1600} height={1200} className="w-full h-[520px] object-cover" />
+                            <img src={'/assets/land.JPG'} alt="Luxurious modern living room designed by Woodshine Interiors" width={1600} height={1200} className="w-full h-[520px] object-cover" />
                             <div className="absolute inset-0 bg-gradient-to-t from-accent/40 via-transparent to-transparent" />
                             <div className="absolute bottom-5 left-5 right-5 rounded-2xl glass px-4 py-3 flex items-center gap-3">
                                 <div className="flex -space-x-2">
@@ -492,9 +492,9 @@ function Kitchens() {
                 <div className="grid lg:grid-cols-12 gap-12 items-center">
                     <div className="lg:col-span-6 reveal">
                         <div className="relative rounded-[2rem] overflow-hidden shadow-[var(--shadow-luxe)] group">
-                            <img src={"https://woodshine.in/wp-content/uploads/2023/02/WA-A.jpg"} alt="Premium modular kitchen with walnut cabinetry" loading="lazy" width={1408} height={1008} className="w-full h-[560px] object-cover transition-transform duration-[1200ms] group-hover:scale-105" />
+                            <img src={"/assets/mod1.JPG"} alt="Premium modular kitchen with walnut cabinetry" loading="lazy" width={1408} height={1008} className="w-full h-[560px] object-cover transition-transform duration-[1200ms] group-hover:scale-105" />
                             <div className="absolute inset-0 bg-gradient-to-t from-accent/50 via-transparent to-transparent" />
-                            <img src={"https://woodshine.in/wp-content/uploads/2023/02/0U1A4378-1.jpg"} alt="" loading="lazy" width={1000} height={1000} className="absolute -bottom-8 -right-6 h-40 w-40 md:h-56 md:w-56 rounded-3xl object-cover border-8 border-background shadow-[var(--shadow-luxe)] hidden md:block" />
+                            <img src={"/assets/mod2.JPG"} alt="" loading="lazy" width={1000} height={1000} className="absolute -bottom-8 -right-6 h-40 w-40 md:h-56 md:w-56 rounded-3xl object-cover border-8 border-background shadow-[var(--shadow-luxe)] hidden md:block" />
                         </div>
                     </div>
 
@@ -581,7 +581,7 @@ function Gallery() {
         { src: tvunitImg, tag: "TV Unit", ratio: "aspect-[3/2]" },
         { src: diningImg, tag: "Dining", ratio: "aspect-[3/4]" },
         { src: ceilingImg, tag: "False Ceiling", ratio: "aspect-[4/3]" },
-        { src: kitchen2Img, tag: "Island Kitchen", ratio: "aspect-square" },
+        { src: kitchen2Img, tag: "Living Lounge", ratio: "aspect-square" },
     ];
     return (
         <Section id="projects">
@@ -982,10 +982,9 @@ function Footer() {
             <div className="container-luxe">
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
                     <div>
-                        <div className="flex items-center gap-2 mb-5">
-                            <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground font-display text-lg">W</span>
-                            <div className="font-display text-xl">Woodshine<span className="text-primary-soft">.</span></div>
-                        </div>
+                        <a href="#home" className="inline-block mb-5 bg-white p-3 rounded-2xl">
+                            <img className="w-44" src={logo} alt="Woodshine Interiors Logo" />
+                        </a>
                         <p className="text-sm text-white/60 leading-relaxed max-w-xs">
                             Designed for Living. Crafted for Life. Premium home interiors with transparent pricing and factory-finished quality.
                         </p>
