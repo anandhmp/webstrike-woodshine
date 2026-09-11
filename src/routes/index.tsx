@@ -740,14 +740,14 @@ function LimitedOffer() {
                             This season only — enjoy special package pricing plus complimentary design, site visit and 3D walkthrough.
                         </p>
 
-                        <div className="mt-8 flex flex-wrap gap-3">
+                        {/* <div className="mt-8 flex flex-wrap gap-3">
                             {time.map((t) => (
                                 <div key={t.l} className="glass-dark rounded-2xl px-5 py-4 min-w-[86px] text-center">
                                     <div className="font-display text-3xl md:text-4xl">{t.n}</div>
                                     <div className="text-[10px] uppercase tracking-[0.25em] text-white/60 mt-1">{t.l}</div>
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
 
                         <ul className="mt-9 grid sm:grid-cols-2 gap-2.5">
                             {benefits.map((b) => (
@@ -804,8 +804,8 @@ function FAQ() {
                         <p className="mt-5 text-muted-foreground text-sm leading-relaxed">
                             Can't find your answer? Our team is one call away.
                         </p>
-                        <a href="tel:+919999999999" className="mt-6 inline-flex items-center gap-2 text-primary text-sm font-medium hover:underline">
-                            <Phone className="h-4 w-4" /> +91 99999 99999
+                        <a href="tel:+918086076666" className="mt-6 inline-flex items-center gap-2 text-primary text-sm font-medium hover:underline">
+                            <Phone className="h-4 w-4" /> +91 808 607 6666
                         </a>
                     </div>
                     <div className="lg:col-span-8 space-y-3 reveal">
